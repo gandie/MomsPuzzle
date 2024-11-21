@@ -79,7 +79,7 @@ class Puzzle:
         if 0:
             yield self
 
-    def solve(pos, depthFirst=False):
+    def solve(pos, depthFirst=False, returnTrail=False):
         queue = deque([pos])
         trail = {intern(pos.canonical()): None}
         solution = deque()
@@ -97,5 +97,8 @@ class Puzzle:
         while pos:
             solution.appendleft(pos)
             pos = trail[pos.canonical()]
+
+        if returnTrail:
+            return list(solution), trail
 
         return list(solution)

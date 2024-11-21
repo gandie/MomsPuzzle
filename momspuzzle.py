@@ -14,6 +14,8 @@ stupid puzzle for good.
 '''
 
 from puzzle import Puzzle
+from dict2dot import dict2dot
+from puzzlegen import gen_puzzle
 
 
 class MumsPuzzle(Puzzle):
@@ -120,20 +122,15 @@ class MumsPuzzle(Puzzle):
     journey so far. TO BE CONTINUED!
     '''
 
-    maxheight = 8
-    letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
-    pos = (
-        'ABECGHDF',
-        'HEBFCDAG',
-        'GDEHAFCB',
-        'CFGDAHEB',
-        'FCEHGABD',
-        'BGEHADFC',
-        'EHGBCADF',
-        'DFHACEBG',
-        '',
-        ''
-    )
+    maxheight = 4
+    letters = ['X', 'P', 'V']
+    pos = ('XPPP', 'XXPV', 'XVVV', '', '')
+
+    @classmethod
+    def set_setting(cls, maxheight, letters, pos):
+        cls.maxheight = maxheight
+        cls.letters = letters
+        cls.pos = pos
 
     def isgoal(self):
         '''
@@ -171,5 +168,19 @@ class MumsPuzzle(Puzzle):
 
 if __name__ == '__main__':
     from pprint import pprint
+    stacks, letters = gen_puzzle(
+        tower_count=6,
+        empty_count=2,
+        maxheight=4,
+    )
     p = MumsPuzzle()
-    pprint(p.solve())
+    p.set_setting(
+        maxheight=4,
+        letters=letters,
+        pos=tuple(stacks)
+    )
+
+    solution, trail = p.solve(depthFirst=False, returnTrail=True)
+    pprint(solution)
+    # pprint(trail)
+    dict2dot(trail, filename='trail.dot', solution=solution)
