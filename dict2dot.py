@@ -17,11 +17,20 @@ def dict2dot(input_dict, filename='dict.dot', solution=None):
 
     if solution:
         # print(type(solution[0].pos))
-        start = [item for item in list(solution[0].pos) if item]
-        finish = [item for item in list(solution[-1].pos) if item]
-        start_node = '_'.join(start) + ' [id=1,is_start=1]'
-        finish_node = '_'.join(finish) + ' [id=2,is_finish=1]'
+        first, *middle, last = solution
+        dup_start = sorted(list(first.pos), key=len)
+        dup_finish = sorted(list(last.pos), key=len)
+        start = [item for item in dup_start if item]
+        finish = [item for item in dup_finish if item]
+        start_node = '_'.join(start) + ' [is_start=1, on_path=1]'
+        finish_node = '_'.join(finish) + ' [is_finish=1, on_path=1]'
         graph_lines.extend([start_node, finish_node])
+        graph_lines.extend([
+            '_'.join([
+                s for s in sorted(list(item.pos), key=len) if s
+            ]) + ' [on_path=1]'
+            for item in middle
+        ])
 
     for key, value in input_dict.items():
         if not value:
