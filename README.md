@@ -15,6 +15,14 @@ puzzles or making decisions in general. Well, what a colorful
 docstring this is. Enough cheap talk. Let's implement mom's
 stupid puzzle for good.
 
+# Usage
+
+Windows
+
+```powershell
+python.exe .\momspuzzle.py
+```
+
 ## Tests and scaling thoughts
 
 We have 12 ( later maybe N ) poles, 2 of them are empty.
