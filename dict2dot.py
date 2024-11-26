@@ -16,7 +16,6 @@ def dict2dot(input_dict, filename='dict.dot', solution=None):
     graph_lines = []
 
     if solution:
-        # print(type(solution[0].pos))
         first, *middle, last = solution
         dup_start = sorted(list(first.pos), key=len)
         dup_finish = sorted(list(last.pos), key=len)
@@ -35,12 +34,12 @@ def dict2dot(input_dict, filename='dict.dot', solution=None):
     for key, value in input_dict.items():
         if not value:
             continue
-        dup = sorted(list(value.pos), key=len)
-        canonic_value = tuple(dup)
 
-        # "your code is the worst i've ever run!" ... "but it runs"
-        src_str = str(canonic_value).replace("(", '').replace(")", '').replace("'", '').replace(',', '').strip().replace(" ", "_")
-        tgt_str = str(key).replace("(", '').replace(")", '').replace("'", '').replace(',', '').strip().replace(" ", "_")
+        canonic_value = value.canonical()
+
+        # reconstruct tuples from repr's via eval
+        src_str = '_'.join([item for item in eval(canonic_value) if item])
+        tgt_str = '_'.join([item for item in eval(key) if item])
 
         graph_lines.append(edge_tmpl.format(src=src_str, tgt=tgt_str))
 
