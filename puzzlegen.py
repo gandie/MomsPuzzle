@@ -1,5 +1,5 @@
 '''
-Generator for puzzles in this stupid puzzle game my mum plays
+Generator for puzzles in this stupid puzzle game my mom plays
 '''
 
 import string
@@ -23,8 +23,9 @@ def gen_puzzle(tower_count, empty_count, maxheight, letters=None):
 
     raw_stacks = ''.join(random.sample(raw_stacks, len(raw_stacks)))
 
+    # build stacks of maxheight from raw_stacks by slicing
     stacks = [
-        raw_stacks[ i : i + maxheight ]
+        raw_stacks[i: i + maxheight]
         for i in range(0, len(raw_stacks), maxheight)
     ]
     for _ in range(empty_count):
